@@ -24,14 +24,18 @@ jobs:
         distribution: 'temurin'
         cache: maven
         server-id: github              # must match <id> in pom.xml distributionManagement
-        server-username: GITHUB_ACTOR  # GitHub username
-        server-password: ${{ secrets.GITHUB_TOKEN }}
+        server-username: USERNAME      # GitHub username
+        server-password: TOKEN
 
     - name: Clean target
       run: mvn -B clean
 
     - name: Build maven
       run: mvn -B package --file pom.xml
+
+    env:
+      USERNAME: ${{ github.actor }}
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -46,11 +50,15 @@ jobs:
         distribution: 'temurin'
         cache: maven
         server-id: github              # must match <id> in pom.xml distributionManagement
-        server-username: GITHUB_ACTOR  # GitHub username
-        server-password: GITHUB_TOKEN
+        server-username: USERNAME      # GitHub username
+        server-password: TOKEN
         
     - name: Debug settings.xml
       run: cat ~/.m2/settings.xml
 
     - name: Deploy maven package
       run: mvn -B deploy --file pom.xml
+
+    env:
+      USERNAME: ${{ github.actor }}
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
