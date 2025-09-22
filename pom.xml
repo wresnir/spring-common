@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.wresni</groupId>
 	<artifactId>spring-common</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-common</name>
 	<description>Common Library used for spring boot</description>
 	<url/>
