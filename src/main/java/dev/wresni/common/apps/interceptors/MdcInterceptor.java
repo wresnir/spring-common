@@ -17,7 +17,7 @@ public class MdcInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        MDC.put("processId", UUID.randomUUID().toString());
+        MDC.put("requestId", UUID.randomUUID().toString());
         return true;
     }
 
