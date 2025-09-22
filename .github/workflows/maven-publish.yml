@@ -33,6 +33,9 @@ jobs:
     - name: Build maven
       run: mvn -B package --file pom.xml
 
+    - name: Debug build package
+      run: ls -l target
+
     env:
       USERNAME: ${{ github.actor }}
       TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
@@ -52,9 +55,9 @@ jobs:
         server-id: github              # must match <id> in pom.xml distributionManagement
         server-username: USERNAME      # GitHub username
         server-password: TOKEN
-        
-    - name: Debug settings.xml
-      run: cat ~/.m2/settings.xml
+
+    - name: Debug build package
+      run: ls -l target
 
     - name: Deploy maven package
       run: mvn -B deploy --file pom.xml
