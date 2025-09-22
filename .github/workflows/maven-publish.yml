@@ -45,6 +45,9 @@ jobs:
         server-id: github              # must match <id> in pom.xml distributionManagement
         server-username: GITHUB_ACTOR  # GitHub username
         server-password: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Debug settings.xml
+      run: cat ~/.m2/settings.xml
 
     - name: Deploy maven package
       run: mvn -B deploy --file pom.xml
