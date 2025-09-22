@@ -27,6 +27,9 @@ jobs:
         server-username: GITHUB_ACTOR  # GitHub username
         server-password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Clean target
+      run: mvn -B clean
+
     - name: Build maven
       run: mvn -B package --file pom.xml
 
@@ -44,7 +47,7 @@ jobs:
         cache: maven
         server-id: github              # must match <id> in pom.xml distributionManagement
         server-username: GITHUB_ACTOR  # GitHub username
-        server-password: ${{ secrets.GITHUB_TOKEN }}
+        server-password: GITHUB_TOKEN
         
     - name: Debug settings.xml
       run: cat ~/.m2/settings.xml
