@@ -47,4 +47,4 @@ jobs:
         server-password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Deploy maven package
-      run: mvn deploy
+      run: mvn -B deploy --file pom.xml
