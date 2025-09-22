@@ -30,11 +30,8 @@ jobs:
     - name: Clean target
       run: mvn -B clean
 
-    - name: Build maven
+    - name: Build & deploy maven
       run: mvn -B deploy --file pom.xml
-
-    - name: Debug build package
-      run: ls -l target
 
     env:
       USERNAME: ${{ github.actor }}
