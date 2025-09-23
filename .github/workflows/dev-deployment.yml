@@ -4,37 +4,36 @@
 name: Maven Package
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - closed
     branches: [ "dev" ]
 
 jobs:
-  version-checking:
+  build:
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.get-version.outputs.version }}
-    permissions:
-      contents: read
-      packages: write
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+      - name: Checking out
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
 
-    - name: Check version
-      id: get-version
-      run: |
-        VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Clean target
+        run: mvn -B clean
+
+      - name: Build & deploy maven
+        run: mvn -B package --file pom.xml
 
   deploy:
     runs-on: ubuntu-latest
-    needs: version-checking
-    if: ${{ endsWith(needs.version-checking.outputs.version, '-SNAPSHOT') }}
+    needs: build
+    if: github.event.pull_request.merged == true
     steps:
       - name: Checking out
         uses: actions/checkout@v4
