@@ -19,6 +19,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,7 +28,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-public class CommonConfig {
+public class CommonConfig implements WebMvcConfigurer {
+
     @Bean
     @Primary
     public RestTemplate getRestTemplate() {
@@ -62,5 +65,10 @@ public class CommonConfig {
     @Primary
     public MdcInterceptor mdcInterceptor() {
         return new MdcInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(mdcInterceptor());
     }
 }

@@ -2,10 +2,12 @@ package dev.wresni.common.utilities;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 import java.util.UUID;
 
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UuidUtil {
     private static final String HEXADECIMAL_REGEX = "\\p{XDigit}+";
@@ -33,6 +35,7 @@ public class UuidUtil {
         try {
             return UUID.fromString(string);
         } catch (Exception e) {
+            log.error("Invalid UUID String: {}, with error: {}", string, e.getMessage(), e);
             return null;
         }
     }
