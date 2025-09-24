@@ -12,7 +12,7 @@ public class FunctionUtil {
         return (oldData, newData) -> newData;
     }
     public static <T> BinaryOperator<T> keep() {
-        return (oldData, newData) -> newData;
+        return (oldData, newData) -> oldData;
     }
     public static <T> Function<T, T> identity() {
         return Function.identity();
