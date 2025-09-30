@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -181,5 +183,12 @@ public class ObjectUtil {
 
     public static <T> void ifPresent(T obj, Consumer<T> consumer) {
         Optional.ofNullable(obj).ifPresent(consumer);
+    }
+
+    public static String appendToString(Object... values) {
+        if (values == null || values.length == 0) return "";
+        return Arrays.stream(values)
+                .map(Object::toString)
+                .collect(Collectors.joining(" "));
     }
 }
