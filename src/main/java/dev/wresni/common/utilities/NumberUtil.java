@@ -68,25 +68,31 @@ public class NumberUtil {
         return Objects.nonNull(value) && value.doubleValue() >= 0;
     }
 
-    public static BigDecimal percent(BigDecimal dividend, BigDecimal divisor) {
-        return dividend == null || divisor == null || divisor.equals(BigDecimal.ZERO) ?
-                BigDecimal.ZERO :
-                dividend.divide(divisor, MathContext.DECIMAL64).multiply(BigDecimal.valueOf(100L));
+    public static BigDecimal percent(Number dividend, Number divisor, int scale) {
+        if (dividend == null || divisor == null) return null;
+
+        BigDecimal divi = new BigDecimal(dividend.toString());
+        BigDecimal divo = new BigDecimal(divisor.toString());
+
+        if (divo.equals(BigDecimal.ZERO)) return BigDecimal.ZERO;
+        return divi.divide(divo, MathContext.DECIMAL128).multiply(oneHundred()).setScale(scale, RoundingMode.HALF_UP);
     }
 
-    public static BigDecimal percent(BigDecimal dividend, BigDecimal divisor, int scale) {
-        return dividend == null || divisor == null || divisor.compareTo(BigDecimal.ZERO) == 0 ?
-                BigDecimal.ZERO :
-                dividend.divide(divisor, MathContext.DECIMAL64).multiply(BigDecimal.valueOf(100L)).setScale(scale, RoundingMode.HALF_UP);
+    public static BigDecimal percent(Number dividend, Number divisor) {
+        return percent(dividend, divisor, DECIMAL_SCALING);
     }
 
-    public static BigDecimal percentDecimal(BigDecimal dividend, BigDecimal divisor, int scale) {
-        return dividend == null || divisor == null || divisor.equals(BigDecimal.ZERO) ?
-                BigDecimal.ZERO :
-                dividend.divide(divisor, scale,  RoundingMode.HALF_UP);
+    public static BigDecimal percentDecimal(Number dividend, Number divisor, int scale) {
+        if (dividend == null || divisor == null) return null;
+
+        BigDecimal divi = new BigDecimal(dividend.toString());
+        BigDecimal divo = new BigDecimal(divisor.toString());
+
+        if (divo.equals(BigDecimal.ZERO)) return BigDecimal.ZERO;
+        return divi.divide(divo, MathContext.DECIMAL128).setScale(scale, RoundingMode.HALF_UP);
     }
 
-    public static BigDecimal percentDecimal(BigDecimal dividend, BigDecimal divisor) {
+    public static BigDecimal percentDecimal(Number dividend, Number divisor) {
         return percentDecimal(dividend, divisor, DECIMAL_SCALING);
     }
 
